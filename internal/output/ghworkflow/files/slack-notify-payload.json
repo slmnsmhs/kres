@@ -1,0 +1,61 @@
+{
+    "channel": "proj-talos-maintainers",
+    "attachments": [
+        {
+            "color": "${{ github.event.workflow_run.conclusion == 'success' && '#2EB886' || github.event.workflow_run.conclusion == 'failure' && '#A30002' || '#FFCC00' }}",
+            "fallback": "test",
+            "blocks": [
+                {
+                    "type": "section",
+                    "fields": [
+                        {
+                            "type": "mrkdwn",
+                            "text": "${{ github.event.workflow_run.event == 'pull_request' && format('*Pull Request:* {0} (`{1}`)\n<{2}/pull/{3}|{4}>', github.repository, github.ref_name, github.event.repository.html_url, steps.get-pr-number.outputs.pull_request_number, github.event.workflow_run.display_title) || format('*Build:* {0} (`{1}`)\n<{2}/commit/{3}|{4}>', github.repository, github.ref_name, github.event.repository.html_url, github.sha, github.event.workflow_run.display_title) }}"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Status:*\n`${{ github.event.workflow_run.conclusion }}`"
+                        }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "fields": [
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Author:*\n`${{ github.actor }}`"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Event:*\n`${{ github.event.workflow_run.event }}`"
+                        }
+                    ]
+                },
+                {
+                    "type": "divider"
+                },
+                {
+                    "type": "actions",
+                    "elements": [
+                        {
+                            "type": "button",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Logs"
+                            },
+                            "url": "${{ github.event.workflow_run.html_url }}"
+                        },
+                        {
+                            "type": "button",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Commit"
+                            },
+                            "url": "${{ github.event.repository.html_url }}/commit/${{ github.sha }}"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
